@@ -1,14 +1,47 @@
 server:
-  port: 8888
+  port: 13100
 
 spring:
   application:
     name: config-server
+  profiles:
+    active: git
+
   cloud:
     config:
       server:
         git:
-          uri:
-          username:
-          password:
+          uri: https://github.com/89-49/configs
           default-label: main
+          search-paths:
+            - configs/common
+            - configs/{application}/{profile}
+            - configs/{application}
+          basedir: configs # 파일이 저장되는 위치(확인 필요)
+          clone-on-start: true
+
+eureka:
+  instance:
+    prefer-ip-address: false
+    hostname: ${HOSTNAME:localhost}
+
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:13101/eureka/}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health,info,metrics
+
+#  zipkin은 후순위이므로 주석 처리
+
+#  tracing:
+#    sampling:
+#      probability: 0.1
+#    zipkin:
+#      tracing:
+#        endpoint: "${ZIPKIN_ENDPOINT:http://localhost:9411/api/v2/spans}"
