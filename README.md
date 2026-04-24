@@ -206,6 +206,7 @@ configs
 search-paths:
   - common
   - "{application}"
+  - "{application}/{profile}"
 ```
 
 따라서 `user-service`가 설정을 요청하면 Config Server는 아래 경로를 확인합니다.
