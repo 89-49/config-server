@@ -1,5 +1,5 @@
 server:
-  port: 13100
+  port: ${SERVER_PORT:13100}
 
 spring:
   application:
@@ -11,13 +11,13 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/89-49/configs
-          default-label: main
+          uri: ${CONFIG_GIT_URI:https://github.com/89-49/configs}
+          default-label: ${CONFIG_GIT_BRANCH:main}
           search-paths:
-            - configs/common
-            - configs/{application}/{profile}
-            - configs/{application}
-          basedir: configs # 파일이 저장되는 위치(확인 필요)
+            - common
+            - "{application}"
+            - "{application}/{profile}"
+          basedir: ${CONFIG_BASEDIR:tmp/configs}
           clone-on-start: true
 
 eureka:
