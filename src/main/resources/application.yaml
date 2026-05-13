@@ -13,17 +13,24 @@ spring:
         git:
           uri: ${CONFIG_GIT_URI:https://github.com/89-49/configs}
           default-label: ${CONFIG_GIT_BRANCH:main}
+          try-master-branch: false
           search-paths:
+            - .
             - common
             - "{application}"
             - "{application}/{profile}"
+            - configs/common
+            - "configs/{application}"
+            - "configs/{application}/{profile}"
           basedir: ${CONFIG_BASEDIR:tmp/configs}
           clone-on-start: true
 
 eureka:
   instance:
-    prefer-ip-address: false
+    prefer-ip-address: true
+    ip-address: ${HOSTNAME:localhost}
     hostname: ${HOSTNAME:localhost}
+    instance-id: ${HOSTNAME:${spring.application.name}}:${spring.application.name}:${server.port}
 
   client:
     register-with-eureka: true
